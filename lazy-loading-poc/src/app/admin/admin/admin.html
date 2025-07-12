@@ -1,0 +1,24 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h1 class="admin-title">⚙️ Admin Module</h1>
+    <p>This module was loaded lazily! Notice the slight delay when you first navigated here.</p>
+  </div>
+  
+  <div class="feature-box">
+    <h3>🚀 Lazy Loading Benefits</h3>
+    <p>✅ Smaller initial bundle size</p>
+    <p>✅ Faster application startup</p>
+    <p>✅ Loaded only when needed</p>
+    <p>✅ Better performance for large applications</p>
+  </div>
+  
+  <nav class="admin-nav">
+    <a routerLink="/admin/dashboard">📊 Dashboard</a>
+    <a routerLink="/home">🏠 Back to Home</a>
+  </nav>
+  
+  <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <h4>🎯 Module Content:</h4>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,279 @@
+.search-container {
+  max-width: 800px;
+  width: 100%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.search-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.search-header h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.search-header p {
+  color: #7f8c8d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 16px 50px 16px 20px;
+  border: 2px solid #e0e6ed;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: #f8fafc;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3498db;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.search-input.loading {
+  border-color: #f39c12;
+  background: #fff9f0;
+}
+
+.search-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #7f8c8d;
+}
+
+.search-icon.loading {
+  color: #f39c12;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.search-info {
+  margin-bottom: 1rem;
+  min-height: 24px;
+}
+
+.search-info p {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
+}
+
+.loading-text {
+  color: #f39c12 !important;
+  font-weight: 500;
+}
+
+.error-message {
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.error-message p {
+  color: #c0392b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.results-container {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.result-card {
+  background: #f8fafc;
+  border: 1px solid #e0e6ed;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.result-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #3498db;
+}
+
+.result-card h3 {
+  color: #2c3e50;
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.result-card .description {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.api-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.api-details span {
+  background: #ecf0f1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.category {
+  background: #e8f5e8 !important;
+  color: #27ae60 !important;
+}
+
+.auth {
+  background: #fff3cd !important;
+  color: #f39c12 !important;
+}
+
+.auth.no-auth {
+  background: #f8f9fa !important;
+  color: #95a5a6 !important;
+}
+
+.https {
+  background: #fee !important;
+  color: #e74c3c !important;
+}
+
+.https.https-yes {
+  background: #e8f5e8 !important;
+  color: #27ae60 !important;
+}
+
+.api-link {
+  display: inline-block;
+  background: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.api-link:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+}
+
+.debug-info {
+  background: #2c3e50;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  font-family: 'Courier New', monospace;
+}
+
+.debug-info h4 {
+  color: #ecf0f1;
+  margin: 0 0 0.5rem 0;
+}
+
+.debug-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .search-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .search-input {
+    padding: 14px 45px 14px 16px;
+    font-size: 14px;
+  }
+  
+  .api-details {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .api-details span {
+    display: inline-block;
+    width: fit-content;
+  }
+}
+
+/* Animation for results appearing */
+.result-card {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state styles */
+.search-input.loading {
+  position: relative;
+}
+
+.search-input.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3498db, #f39c12, #3498db);
+  background-size: 200% 100%;
+  animation: loading-gradient 1.5s ease-in-out infinite;
+}

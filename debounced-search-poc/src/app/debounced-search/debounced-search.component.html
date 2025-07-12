@@ -1,0 +1,68 @@
+<div class="search-container">
+  <div class="search-header">
+    <h2>🔍 Live API Search</h2>
+    <p>Type to search public APIs - debounced with RxJS</p>
+  </div>
+  
+  <div class="search-box">
+    <input
+      type="text"
+      #searchInput
+      class="search-input"
+      placeholder="Search APIs (e.g., 'weather', 'news', 'crypto')..."
+      [class.loading]="isLoading"
+    />
+    <div class="search-icon" [class.loading]="isLoading">
+      <span *ngIf="!isLoading">🔍</span>
+      <span *ngIf="isLoading" class="spinner">⟳</span>
+    </div>
+  </div>
+  
+  <div class="search-info">
+    <p *ngIf="searchTerm && !isLoading && results.length > 0">
+      Found <strong>{{ results.length }}</strong> results for "<strong>{{ searchTerm }}</strong>"
+    </p>
+    <p *ngIf="searchTerm && !isLoading && results.length === 0">
+      No results found for "<strong>{{ searchTerm }}</strong>"
+    </p>
+    <p *ngIf="isLoading" class="loading-text">
+      🔄 Searching for "<strong>{{ searchTerm }}</strong>"...
+    </p>
+  </div>
+  
+  <div class="error-message" *ngIf="errorMessage">
+    <p>❌ {{ errorMessage }}</p>
+  </div>
+  
+  <div class="results-container">
+    <div class="result-card" *ngFor="let api of results">
+      <h3>{{ api.API }}</h3>
+      <p class="description">{{ api.Description }}</p>
+      <div class="api-details">
+        <span class="category">📂 {{ api.Category }}</span>
+        <span class="auth" [class.no-auth]="api.Auth === ''">
+          🔐 {{ api.Auth || 'No Auth' }}
+        </span>
+        <span class="https" [class.https-yes]="api.HTTPS">
+          {{ api.HTTPS ? '🔒 HTTPS' : '🚫 HTTP' }}
+        </span>
+      </div>
+      <a 
+        *ngIf="api.Link" 
+        [href]="api.Link" 
+        target="_blank" 
+        class="api-link"
+      >
+        🔗 View API
+      </a>
+    </div>
+  </div>
+  
+  <div class="debug-info" *ngIf="showDebugInfo">
+    <h4>🛠️ Debug Info:</h4>
+    <p><strong>Search Term:</strong> {{ searchTerm }}</p>
+    <p><strong>Is Loading:</strong> {{ isLoading }}</p>
+    <p><strong>Results Count:</strong> {{ results.length }}</p>
+    <p><strong>Error:</strong> {{ errorMessage || 'None' }}</p>
+  </div>
+</div>

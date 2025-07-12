@@ -1,0 +1,91 @@
+<div class="form-container">
+  <h2>User Registration Form</h2>
+  
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    
+    <!-- User Info Section -->
+    <div class="form-section" formGroupName="userInfo">
+      <h3>User Information</h3>
+      
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username"
+          [class.error]="userForm.get('userInfo.username')?.invalid && userForm.get('userInfo.username')?.touched"
+          placeholder="Enter username">
+        
+        <div class="error-messages" *ngIf="userForm.get('userInfo.username')?.invalid && userForm.get('userInfo.username')?.touched">
+          <div *ngIf="userForm.get('userInfo.username')?.errors?.['required']">Username is required</div>
+          <div *ngIf="userForm.get('userInfo.username')?.errors?.['minlength']">Username must be at least 3 characters</div>
+          <div *ngIf="userForm.get('userInfo.username')?.errors?.['forbiddenName']">This username is not allowed</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          [class.error]="userForm.get('userInfo.email')?.invalid && userForm.get('userInfo.email')?.touched"
+          placeholder="Enter email">
+        
+        <div class="error-messages" *ngIf="userForm.get('userInfo.email')?.invalid && userForm.get('userInfo.email')?.touched">
+          <div *ngIf="userForm.get('userInfo.email')?.errors?.['required']">Email is required</div>
+          <div *ngIf="userForm.get('userInfo.email')?.errors?.['email']">Please enter a valid email</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Address Section -->
+    <div class="form-section" formGroupName="address">
+      <h3>Address Information</h3>
+      
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input 
+          type="text" 
+          id="city" 
+          formControlName="city"
+          [class.error]="userForm.get('address.city')?.invalid && userForm.get('address.city')?.touched"
+          placeholder="Enter city">
+        
+        <div class="error-messages" *ngIf="userForm.get('address.city')?.invalid && userForm.get('address.city')?.touched">
+          <div *ngIf="userForm.get('address.city')?.errors?.['required']">City is required</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="zip">ZIP Code:</label>
+        <input 
+          type="text" 
+          id="zip" 
+          formControlName="zip"
+          [class.error]="userForm.get('address.zip')?.invalid && userForm.get('address.zip')?.touched"
+          placeholder="Enter 5-digit ZIP code">
+        
+        <div class="error-messages" *ngIf="userForm.get('address.zip')?.invalid && userForm.get('address.zip')?.touched">
+          <div *ngIf="userForm.get('address.zip')?.errors?.['required']">ZIP code is required</div>
+          <div *ngIf="userForm.get('address.zip')?.errors?.['pattern']">ZIP code must be exactly 5 digits</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="submit" [disabled]="userForm.invalid" class="submit-btn">
+        Submit Form
+      </button>
+    </div>
+    
+    <!-- Form Status (for debugging) -->
+    <div class="form-status" *ngIf="userForm.invalid">
+      <p><strong>Form Status:</strong> Invalid</p>
+      <p><strong>Form Value:</strong></p>
+      <pre>{{ userForm.value | json }}</pre>
+    </div>
+    
+  </form>
+</div>
