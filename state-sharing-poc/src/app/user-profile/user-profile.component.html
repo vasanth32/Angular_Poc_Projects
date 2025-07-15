@@ -1,0 +1,204 @@
+<div class="user-profile-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>👤 User Profile</h1>
+    <p>Manage your profile information and view activity</p>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="profile-card" *ngIf="user">
+    <div class="profile-header">
+      <div class="profile-avatar">{{ user.avatar }}</div>
+      <div class="profile-info">
+        <h2>{{ user.name }}</h2>
+        <p class="email">{{ user.email }}</p>
+        <div class="status-badge" [class.online]="user.isLoggedIn">
+          {{ user.isLoggedIn ? '🟢 Online' : '🔴 Offline' }}
+        </div>
+      </div>
+      <div class="profile-actions">
+        <button 
+          class="action-btn edit-btn" 
+          (click)="toggleEditMode()"
+          [class.active]="editMode">
+          {{ editMode ? '❌ Cancel' : '✏️ Edit' }}
+        </button>
+        <button 
+          class="action-btn status-btn" 
+          (click)="toggleLoginStatus()"
+          [class.logout]="user.isLoggedIn">
+          {{ user.isLoggedIn ? '🚪 Logout' : '🔑 Login' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="edit-form" *ngIf="editMode">
+      <div class="form-section">
+        <h3>📝 Edit Profile</h3>
+        
+        <!-- Name Field -->
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="editForm.name" 
+            class="form-input"
+            placeholder="Enter your name">
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input 
+            type="email" 
+            id="email" 
+            [(ngModel)]="editForm.email" 
+            class="form-input"
+            placeholder="Enter your email">
+        </div>
+
+        <!-- Avatar Selection -->
+        <div class="form-group">
+          <label>Avatar:</label>
+          <div class="avatar-selector">
+            <div 
+              *ngFor="let avatar of avatars" 
+              class="avatar-option"
+              [class.selected]="editForm.avatar === avatar"
+              (click)="selectAvatar(avatar)">
+              {{ avatar }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button 
+            class="action-btn save-btn" 
+            (click)="saveProfile()"
+            [disabled]="!editForm.name || !editForm.email">
+            💾 Save Changes
+          </button>
+          <button 
+            class="action-btn cancel-btn" 
+            (click)="cancelEdit()">
+            ❌ Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferences Display -->
+    <div class="preferences-section" *ngIf="!editMode">
+      <h3>⚙️ Current Preferences</h3>
+      <div class="preferences-grid">
+        <div class="preference-item">
+          <span class="pref-label">Theme:</span>
+          <span class="pref-value theme-value" [class.dark]="user.preferences.theme === 'dark'">
+            {{ user.preferences.theme === 'light' ? '☀️ Light' : '🌙 Dark' }}
+          </span>
+        </div>
+        <div class="preference-item">
+          <span class="pref-label">Notifications:</span>
+          <span class="pref-value">
+            {{ user.preferences.notifications ? '🔔 Enabled' : '🔕 Disabled' }}
+          </span>
+        </div>
+        <div class="preference-item">
+          <span class="pref-label">Language:</span>
+          <span class="pref-value">🌍 {{ user.preferences.language.toUpperCase() }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity Statistics -->
+  <div class="activity-stats">
+    <h3>📊 Activity Statistics</h3>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">{{ getActivityStats().total }}</div>
+        <div class="stat-label">Total Actions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getActivityStats().lastHour }}</div>
+        <div class="stat-label">Last Hour</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getActivityStats().lastDay }}</div>
+        <div class="stat-label">Last Day</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Component Activity -->
+  <div class="component-activity">
+    <h3>🔄 Activity by Component</h3>
+    <div class="activity-bars">
+      <div 
+        *ngFor="let item of getActivitiesByComponent()" 
+        class="activity-bar">
+        <div class="component-name">{{ item.component }}</div>
+        <div class="bar-container">
+          <div 
+            class="bar-fill" 
+            [style.width.%]="(item.count / getActivityStats().total) * 100">
+          </div>
+        </div>
+        <div class="activity-count">{{ item.count }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="recent-activity">
+    <div class="activity-header">
+      <h3>📝 Recent Activity</h3>
+      <button class="clear-btn" (click)="clearActivity()">🗑️ Clear</button>
+    </div>
+    
+    <div class="activity-list" *ngIf="activity.length > 0">
+      <div 
+        *ngFor="let item of activity" 
+        class="activity-item">
+        <div class="activity-time">{{ formatDate(item.timestamp) }}</div>
+        <div class="activity-component">{{ item.component }}</div>
+        <div class="activity-action">{{ item.action }}</div>
+      </div>
+    </div>
+    
+    <div class="no-activity" *ngIf="activity.length === 0">
+      <p>No recent activity</p>
+    </div>
+  </div>
+
+  <!-- Reset Section -->
+  <div class="reset-section">
+    <h3>🔄 Reset Data</h3>
+    <p>Reset all user data and activity to default values</p>
+    <button class="reset-btn" (click)="resetUserState()">
+      🔄 Reset User State
+    </button>
+  </div>
+
+  <!-- State Sharing Info -->
+  <div class="state-info">
+    <h3>🔄 State Sharing Information</h3>
+    <div class="info-cards">
+      <div class="info-card">
+        <h4>🏪 Singleton Pattern</h4>
+        <p>UserStateService is a singleton service that maintains state across all components.</p>
+      </div>
+      <div class="info-card">
+        <h4>📡 Observable Updates</h4>
+        <p>Changes here are automatically reflected in the navbar and other components.</p>
+      </div>
+      <div class="info-card">
+        <h4>🔄 Activity Tracking</h4>
+        <p>All user interactions are logged and shared across components in real-time.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<!-- Global Navbar -->
+<app-navbar></app-navbar>
+
+<!-- Main Container -->
+<div class="main-container">
+  <!-- Navigation Tabs -->
+  <div class="nav-tabs">
+    <button 
+      *ngFor="let item of navItems" 
+      class="nav-tab"
+      [class.active]="currentView === item.id"
+      (click)="setView(item.id)">
+      <span class="tab-label">{{ item.label }}</span>
+      <span class="tab-description">{{ item.description }}</span>
+    </button>
+  </div>
+
+  <!-- Content Area -->
+  <div class="content-area">
+    <!-- Home View -->
+    <div *ngIf="currentView === 'home'" class="view-container">
+      <div class="home-content">
+        <header class="home-header">
+          <h1>🏪 State Sharing with Singleton Services</h1>
+          <p class="subtitle">POC 15: Comprehensive Angular State Management Demo</p>
+        </header>
+
+        <!-- Concept Overview -->
+        <div class="concept-overview">
+          <h2>🎯 What You'll Learn</h2>
+          <div class="concept-grid">
+            <div class="concept-card">
+              <h3>🏪 Singleton Services</h3>
+              <p>Services with `providedIn: 'root'` create single instances shared across the entire application.</p>
+            </div>
+            <div class="concept-card">
+              <h3>📡 Observable Pattern</h3>
+              <p>Using BehaviorSubject and Observable to create reactive state management.</p>
+            </div>
+            <div class="concept-card">
+              <h3>🔄 Real-time Updates</h3>
+              <p>Components automatically update when shared state changes anywhere in the app.</p>
+            </div>
+            <div class="concept-card">
+              <h3>🗂️ State Management</h3>
+              <p>Centralized state management without external libraries like NgRx.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Architecture Diagram -->
+        <div class="architecture-section">
+          <h2>🏗️ Architecture Overview</h2>
+          <div class="architecture-diagram">
+            <div class="service-layer">
+              <div class="service-box">
+                <h4>🏪 UserStateService</h4>
+                <p>Manages user info, preferences, and activity</p>
+              </div>
+              <div class="service-box">
+                <h4>🛒 CartStateService</h4>
+                <p>Manages shopping cart items and totals</p>
+              </div>
+            </div>
+            <div class="connection-lines">
+              <div class="line"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+            </div>
+            <div class="component-layer">
+              <div class="component-box">📊 Navbar</div>
+              <div class="component-box">👤 Profile</div>
+              <div class="component-box">⚙️ Settings</div>
+              <div class="component-box">🛒 Cart</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="demo-section">
+          <h2>🎮 Interactive Demo</h2>
+          <p>Try the following to see state sharing in action:</p>
+          <div class="demo-steps">
+            <div class="demo-step">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <h4>Change Theme</h4>
+                <p>Toggle theme in navbar → See it update in all components</p>
+              </div>
+            </div>
+            <div class="demo-step">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                <h4>Add to Cart</h4>
+                <p>Add items in Shopping Cart → Watch navbar cart count update</p>
+              </div>
+            </div>
+            <div class="demo-step">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                <h4>Edit Profile</h4>
+                <p>Change user info in Profile → See navbar update instantly</p>
+              </div>
+            </div>
+            <div class="demo-step">
+              <span class="step-number">4</span>
+              <div class="step-content">
+                <h4>View Activity</h4>
+                <p>All actions are logged → Check activity log in Profile</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Guide -->
+        <div class="navigation-guide">
+          <h2>🧭 Navigation Guide</h2>
+          <div class="guide-items">
+            <div class="guide-item" (click)="setView('profile')">
+              <div class="guide-icon">👤</div>
+              <div class="guide-content">
+                <h4>User Profile</h4>
+                <p>Edit user information, view activity statistics, and manage profile settings</p>
+              </div>
+            </div>
+            <div class="guide-item" (click)="setView('settings')">
+              <div class="guide-icon">⚙️</div>
+              <div class="guide-content">
+                <h4>User Settings</h4>
+                <p>Configure preferences like theme, notifications, and language settings</p>
+              </div>
+            </div>
+            <div class="guide-item" (click)="setView('cart')">
+              <div class="guide-icon">🛒</div>
+              <div class="guide-content">
+                <h4>Shopping Cart</h4>
+                <p>Manage shopping cart items, view totals, and see real-time updates</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile View -->
+    <div *ngIf="currentView === 'profile'" class="view-container">
+      <app-user-profile></app-user-profile>
+    </div>
+
+    <!-- Settings View -->
+    <div *ngIf="currentView === 'settings'" class="view-container">
+      <app-user-settings></app-user-settings>
+    </div>
+
+    <!-- Cart View -->
+    <div *ngIf="currentView === 'cart'" class="view-container">
+      <app-shopping-cart></app-shopping-cart>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="app-footer">
+  <div class="footer-content">
+    <p>🏗️ POC 15: State Sharing Using Singleton Services</p>
+    <p>Built with Angular 19 | Standalone Components | TypeScript</p>
+  </div>
+</footer>

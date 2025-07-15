@@ -1,0 +1,78 @@
+<div class="todo-item" [class.dark-theme]="theme === 'dark'" [class.completed]="todo.completed">
+  <!-- 📥 @Input Display: Shows data received from parent -->
+  <div class="todo-header">
+    <div class="todo-info">
+      <h3 class="todo-title" [class.completed]="todo.completed">
+        {{ todo.title }}
+      </h3>
+      <div class="todo-meta">
+        <span class="todo-id">ID: {{ todo.id }}</span>
+        <span class="priority-badge" [style.background-color]="getPriorityColor()">
+          {{ todo.priority.toUpperCase() }}
+        </span>
+      </div>
+    </div>
+    
+    <div class="todo-status">
+      <span class="status-text" [class.completed]="todo.completed">
+        {{ todo.completed ? '✅ Completed' : '⏳ Pending' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- 📤 @Output Triggers: User actions that emit events to parent -->
+  <div class="todo-actions">
+    <!-- Complete/Uncomplete Button -->
+    <button 
+      class="action-btn complete-btn" 
+      [class.completed]="todo.completed"
+      (click)="onToggleComplete()"
+      [title]="todo.completed ? 'Mark as pending' : 'Mark as completed'">
+      {{ todo.completed ? '↶ Undo' : '✓ Complete' }}
+    </button>
+
+    <!-- Priority Selector (only if canEdit is true) -->
+    <select 
+      *ngIf="canEdit" 
+      class="priority-select"
+      [value]="todo.priority"
+      (change)="onPriorityChange($event)"
+      title="Change priority">
+      <option value="low">🟢 Low</option>
+      <option value="medium">🟡 Medium</option>
+      <option value="high">🔴 High</option>
+    </select>
+
+    <!-- Delete Button -->
+    <button 
+      class="action-btn delete-btn" 
+      (click)="onDeleteTodo()"
+      title="Delete todo">
+      🗑️ Delete
+    </button>
+  </div>
+
+  <!-- 📋 Communication Info Box -->
+  <div class="communication-info">
+    <h4>📡 Component Communication in Action:</h4>
+    <div class="comm-details">
+      <div class="input-info">
+        <strong>📥 &#64;Input Data Received:</strong>
+        <ul>
+          <li><code>todo</code>: {{ todo.title }} (ID: {{ todo.id }})</li>
+          <li><code>canEdit</code>: {{ canEdit ? 'Enabled' : 'Disabled' }}</li>
+          <li><code>theme</code>: {{ theme }}</li>
+        </ul>
+      </div>
+      
+      <div class="output-info">
+        <strong>📤 &#64;Output Events Available:</strong>
+        <ul>
+          <li><code>todoCompleted</code>: Click Complete/Undo button</li>
+          <li><code>priorityChanged</code>: Change priority dropdown</li>
+          <li><code>todoDeleted</code>: Click Delete button</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

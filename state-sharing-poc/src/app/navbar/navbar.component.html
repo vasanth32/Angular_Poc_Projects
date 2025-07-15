@@ -1,0 +1,86 @@
+<nav class="navbar" [attr.data-theme]="user?.preferences?.theme || 'light'">
+  <div class="navbar-container">
+    <!-- Logo Section -->
+    <div class="navbar-brand">
+      <h2>🛒 StateShare Demo</h2>
+      <span class="subtitle">Singleton Service POC</span>
+    </div>
+
+    <!-- User Info Section -->
+    <div class="navbar-user" *ngIf="user">
+      <div class="user-avatar">{{ user.avatar }}</div>
+      <div class="user-info">
+        <div class="user-name">{{ user.name }}</div>
+        <div class="user-status" [class.logged-in]="user.isLoggedIn">
+          {{ user.isLoggedIn ? 'Online' : 'Offline' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Summary Section -->
+    <div class="navbar-cart" *ngIf="cartSummary">
+      <div class="cart-info">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count" [class.has-items]="!cartSummary.isEmpty">
+          {{ cartSummary.items }}
+        </span>
+        <span class="cart-total">${{ cartSummary.total.toFixed(2) }}</span>
+      </div>
+      <button 
+        class="clear-cart-btn" 
+        (click)="clearCart()" 
+        [disabled]="cartSummary.isEmpty"
+        title="Clear Cart">
+        🗑️
+      </button>
+    </div>
+
+    <!-- Controls Section -->
+    <div class="navbar-controls">
+      <!-- Theme Toggle -->
+      <button 
+        class="control-btn theme-btn" 
+        (click)="toggleTheme()" 
+        [title]="'Switch to ' + (user?.preferences?.theme === 'light' ? 'dark' : 'light') + ' theme'">
+        {{ user?.preferences?.theme === 'light' ? '🌙' : '☀️' }}
+      </button>
+
+      <!-- Notifications Toggle -->
+      <button 
+        class="control-btn notifications-btn" 
+        (click)="toggleNotifications()" 
+        [title]="'Turn ' + (user?.preferences?.notifications ? 'off' : 'on') + ' notifications'">
+        {{ user?.preferences?.notifications ? '🔔' : '🔕' }}
+      </button>
+
+      <!-- Logout Button -->
+      <button 
+        class="control-btn logout-btn" 
+        (click)="logout()" 
+        [disabled]="!user?.isLoggedIn"
+        title="Logout">
+        🚪
+      </button>
+    </div>
+  </div>
+
+  <!-- State Indicators -->
+  <div class="state-indicators">
+    <div class="indicator">
+      <span class="indicator-label">Theme:</span>
+      <span class="indicator-value">{{ user?.preferences?.theme || 'light' }}</span>
+    </div>
+    <div class="indicator">
+      <span class="indicator-label">Notifications:</span>
+      <span class="indicator-value">{{ user?.preferences?.notifications ? 'ON' : 'OFF' }}</span>
+    </div>
+    <div class="indicator">
+      <span class="indicator-label">Cart Items:</span>
+      <span class="indicator-value">{{ cartSummary?.items || 0 }}</span>
+    </div>
+    <div class="indicator">
+      <span class="indicator-label">Status:</span>
+      <span class="indicator-value">{{ user?.isLoggedIn ? 'Logged In' : 'Logged Out' }}</span>
+    </div>
+  </div>
+</nav>

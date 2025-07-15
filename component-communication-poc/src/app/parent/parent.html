@@ -1,0 +1,158 @@
+<div class="parent-container" [class.dark-theme]="currentTheme === 'dark'">
+  <!-- Header Section -->
+  <div class="parent-header">
+    <h1>🎭 POC 14: Component Communication</h1>
+    <p class="subtitle">Learn how Parent and Child components communicate using &#64;Input and &#64;Output</p>
+  </div>
+
+  <!-- Parent Controls Section -->
+  <div class="parent-controls">
+    <h2>🎛️ Parent Component Controls</h2>
+    
+    <div class="control-grid">
+      <!-- Add New Todo Form -->
+      <div class="control-section">
+        <h3>➕ Add New Todo</h3>
+        <div class="add-todo-form">
+          <input 
+            type="text" 
+            [(ngModel)]="newTodoTitle"
+            placeholder="Enter todo title..."
+            class="todo-input"
+            (keyup.enter)="addNewTodo()">
+          
+          <select [(ngModel)]="newTodoPriority" class="priority-input">
+            <option value="low">🟢 Low Priority</option>
+            <option value="medium">🟡 Medium Priority</option>
+            <option value="high">🔴 High Priority</option>
+          </select>
+          
+          <button (click)="addNewTodo()" class="add-btn">Add Todo</button>
+        </div>
+      </div>
+
+      <!-- Parent Settings -->
+      <div class="control-section">
+        <h3>⚙️ Parent Settings</h3>
+        <div class="settings-controls">
+          <button (click)="toggleTheme()" class="setting-btn">
+            {{ currentTheme === 'light' ? '🌙 Switch to Dark' : '☀️ Switch to Light' }}
+          </button>
+          
+          <button (click)="toggleEditMode()" class="setting-btn">
+            {{ canEditTodos ? '🔒 Disable Editing' : '🔓 Enable Editing' }}
+          </button>
+          
+          <button (click)="resetTodos()" class="setting-btn reset-btn">
+            🔄 Reset Todos
+          </button>
+          
+          <button (click)="clearAllTodos()" class="setting-btn danger-btn">
+            🗑️ Clear All
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="stats-section">
+    <h2>📊 Todo Statistics</h2>
+    <div class="stats-grid">
+      <div class="stat-card total">
+        <div class="stat-value">{{ totalCount }}</div>
+        <div class="stat-label">Total Todos</div>
+      </div>
+      <div class="stat-card completed">
+        <div class="stat-value">{{ completedCount }}</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat-card pending">
+        <div class="stat-value">{{ pendingCount }}</div>
+        <div class="stat-label">Pending</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Component Communication Demo -->
+  <div class="communication-demo">
+    <h2>📡 Component Communication in Action</h2>
+    
+    <div class="communication-flow">
+      <div class="flow-step">
+        <h3>📤 Parent sends data to Children (&#64;Input)</h3>
+        <div class="flow-details">
+          <div class="data-flow">
+            <strong>Data being sent:</strong>
+            <ul>
+              <li><code>todo</code>: Each todo object ({{ totalCount }} items)</li>
+              <li><code>canEdit</code>: {{ canEditTodos ? 'Enabled' : 'Disabled' }}</li>
+              <li><code>theme</code>: {{ currentTheme }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <h3>📥 Parent receives events from Children (&#64;Output)</h3>
+        <div class="flow-details">
+          <div class="event-flow">
+            <strong>Events being listened to:</strong>
+            <ul>
+              <li><code>(todoCompleted)</code>: When child marks todo complete/incomplete</li>
+              <li><code>(todoDeleted)</code>: When child deletes a todo</li>
+              <li><code>(priorityChanged)</code>: When child changes todo priority</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Child Components Section -->
+  <div class="children-section">
+    <h2>👶 Child Components (Todo Items)</h2>
+    <p class="children-info">
+      Each todo below is rendered by a <strong>Child Component</strong>. 
+      Parent sends data via <code>&#64;Input</code> and receives events via <code>&#64;Output</code>.
+    </p>
+
+    <div class="todo-list">
+      <!-- Loop through todos and create child components -->
+      <app-child 
+        *ngFor="let todo of todos; trackBy: trackByTodoId"
+        [todo]="todo"
+        [canEdit]="canEditTodos"
+        [theme]="currentTheme"
+        (todoCompleted)="onTodoCompleted($event)"
+        (todoDeleted)="onTodoDeleted($event)"
+        (priorityChanged)="onPriorityChanged($event)">
+      </app-child>
+
+      <!-- Empty state -->
+      <div *ngIf="todos.length === 0" class="empty-state">
+        <h3>📝 No todos yet!</h3>
+        <p>Add some todos above to see component communication in action.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Communication Log Section -->
+  <div class="communication-log">
+    <h2>📋 Communication Log</h2>
+    <div class="log-header">
+      <p>Watch real-time communication between Parent and Child components:</p>
+      <button (click)="clearLogs()" class="clear-logs-btn">Clear Logs</button>
+    </div>
+    
+    <div class="log-container">
+      <div *ngIf="communicationLogs.length === 0" class="no-logs">
+        <p>🔄 Interact with the todos above to see communication events...</p>
+      </div>
+      
+      <div *ngFor="let log of communicationLogs" class="log-entry">
+        {{ log }}
+      </div>
+    </div>
+  </div>
+</div>
