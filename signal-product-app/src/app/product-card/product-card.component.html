@@ -1,0 +1,17 @@
+<div class="product-card">
+    <div class="product-image">
+        <img [src]="product().imageUrl" [alt]="product().name" />
+    </div>
+    <div class="product-info">
+        <h3>{{ product().name }}</h3>
+        <p class="description">{{ product().description }}</p>
+        <p class="category">{{ product().category }}</p>
+        <p class="price">{{ formattedPrice() }}</p>
+        <p class="stock-status" [class.in-stock]="product().inStock" [class.out-of-stock]="!product().inStock">
+            {{ product().inStock ? 'In Stock' : 'Out of Stock' }}
+        </p>
+        <button class="add-to-cart-btn" (click)="onAddToCart()" [disabled]="!product().inStock">
+            Add to Cart
+        </button>
+    </div>
+</div>

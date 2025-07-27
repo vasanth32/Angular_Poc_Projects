@@ -1,0 +1,53 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>{{ title }}</h1>
+    <div class="cart-info">
+      <span class="cart-count">Cart: {{ cartCount() }} items</span>
+      <span class="cart-total">Total: ${{ cartTotal().toFixed(2) }}</span>
+      <button class="clear-cart-btn" (click)="clearCart()" [disabled]="cartCount() === 0">
+        Clear Cart
+      </button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="product-section">
+      <h2>Product Display</h2>
+      <p>This demonstrates signal-based communication between components:</p>
+      <ul>
+        <li>Product data is passed as a signal input to ProductCard</li>
+        <li>ProductCard emits a signal when "Add to Cart" is clicked</li>
+        <li>Parent component reacts to the signal and updates cart state</li>
+      </ul>
+
+      <!-- ProductCard with signal-based input and output -->
+      <app-product-card [product]="currentProduct()" (addToCart)="onAddToCart($event)">
+      </app-product-card>
+    </div>
+
+    <div class="controls-section">
+      <h3>Product Controls</h3>
+      <div class="control-buttons">
+        <button class="stock-toggle-btn" (click)="updateProductStock(!currentProduct().inStock)"
+          [class.in-stock]="currentProduct().inStock" [class.out-of-stock]="!currentProduct().inStock">
+          {{ currentProduct().inStock ? 'Set Out of Stock' : 'Set In Stock' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="cart-section" *ngIf="cartCount() > 0">
+      <h3>Cart Items ({{ cartCount() }})</h3>
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let item of cartItems(); trackBy: trackByProductId">
+          <span class="item-name">{{ item.name }}</span>
+          <span class="item-price">${{ item.price.toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Notification -->
+  <div class="notification" *ngIf="showNotification()" [@slideInOut]>
+    {{ notificationMessage() }}
+  </div>
+</div>
