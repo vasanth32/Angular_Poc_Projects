@@ -1,1 +1,27 @@
-<p>product-list works!</p>
+<main class="product-page">
+	<h1>Products</h1>
+
+	@if (loading()) {
+		<p class="status">Loading products...</p>
+	} @else if (products().length === 0) {
+		<p class="status">No products found.</p>
+	} @else {
+		<section class="product-grid" aria-label="Product list">
+			@for (product of products(); track product.id) {
+				<article class="product-card">
+					<img [src]="product.thumbnail" [alt]="product.title" />
+					<div class="product-content">
+						<span class="category">{{ product.category }}</span>
+						<h2>{{ product.title }}</h2>
+						<p class="description">{{ product.description }}</p>
+						<div class="product-details">
+							<strong>{{ product.price | currency:'USD' }}</strong>
+							<span>{{ product.rating }} rating</span>
+							<span>{{ product.stock }} in stock</span>
+						</div>
+					</div>
+				</article>
+			}
+		</section>
+	}
+</main>

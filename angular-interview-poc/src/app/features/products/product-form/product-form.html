@@ -1,1 +1,20 @@
-<p>product-form works!</p>
+<form [formGroup]="productForm" (ngSubmit)="save()">
+  <label>Title</label>
+  <input formControlName="title" />
+
+  @if ( productForm.controls.title.touched && productForm.controls.title.invalid
+  ) {
+  <p>Title is required.</p>
+  }
+
+  <label>Price</label>
+  <input type="number" formControlName="price" />
+
+  <label>Stock</label>
+  <input type="number" formControlName="stock" />
+
+  <label>Category</label>
+  <input formControlName="category" />
+
+  <button type="submit" [disabled]="productForm.invalid">Save</button>
+</form>
