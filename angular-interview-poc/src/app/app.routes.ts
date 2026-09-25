@@ -8,5 +8,13 @@ export const routes: Routes = [
 				(component) => component.ProductList,
 			),
 	},
+    {
+        path: "products/form",
+        loadComponent: () =>
+            import("./features/products/product-form/product-form").then(
+            (component) => component.ProductForm,
+            ),
+    },
+
 	{ path: '', redirectTo: 'products', pathMatch: 'full' },
 ];

@@ -1,0 +1,5 @@
+<form #loginForm="ngForm">
+  <input name="username" [(ngModel)]="username" required />
+
+  <button [disabled]="loginForm.invalid">Login</button>
+</form>
